@@ -1,0 +1,91 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum RoomType {
+  STANDARD
+  DELUXE
+  SUITE
+  DOUBLE
+  SINGLE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bookings  Booking[]
+}
+
+model Hotel {
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  city        String
+  country     String
+  image       String?
+  description String?
+  rating      Float?
+  amenities   String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  rooms       Room[]
+}
+
+model Room {
+  id            String   @id @default(cuid())
+  hotelId       String
+  roomNumber    String
+  type          RoomType
+  pricePerNight Float
+  capacity      Int
+  isAvailable   Boolean  @default(true)
+  amenities     String[] @default([])
+  images        String[] @default([])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  hotel         Hotel    @relation(fields: [hotelId], references: [id], onDelete: Cascade)
+  bookings      Booking[]
+}
+
+model Booking {
+  id            String      @id @default(cuid())
+  userId        String
+  roomId        String
+  checkInDate   DateTime
+  checkOutDate  DateTime
+  totalPrice    Float
+  status        BookingStatus @default(PENDING)
+  guestName     String?
+  guestEmail    String?
+  guestPhone    String?
+  specialRequests String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room          Room        @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
