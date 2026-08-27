@@ -34,18 +34,21 @@ export async function GET(req: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
-    const hotels = await prisma.hotel.findMany({
-      orderBy: { name: 'asc' },
+    const rooms = await prisma.room.findMany({
+      orderBy: { roomNumber: 'asc' },
       include: {
+        hotel: {
+          select: { name: true, city: true }
+        },
         _count: {
-          select: { rooms: true, bookings: true }
+          select: { bookings: true }
         }
       }
     });
 
-    return NextResponse.json(hotels);
+    return NextResponse.json(rooms);
   } catch (error) {
-    console.error('Error fetching hotels:', error);
+    console.error('Error fetching rooms:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -59,31 +62,30 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { name, address, city, country, description, rating, image, amenities } = body;
+    const { hotelId, roomNumber, type, pricePerNight, capacity, isAvailable, amenities } = body;
 
-    if (!name || !city) {
+    if (!hotelId || !roomNumber || !type || pricePerNight == null || capacity == null) {
       return NextResponse.json(
-        { error: 'Name and city are required' },
+        { error: 'hotelId, roomNumber, type, pricePerNight and capacity are required' },
         { status: 400 }
       );
     }
 
-    const hotel = await prisma.hotel.create({
+    const room = await prisma.room.create({
       data: {
-        name,
-        address: address || '',
-        city,
-        country: country || '',
-        description: description || null,
-        rating: rating ? parseFloat(rating) : null,
-        image: image || null,
+        hotelId,
+        roomNumber,
+        type,
+        pricePerNight: parseFloat(pricePerNight),
+        capacity: parseInt(capacity),
+        isAvailable: isAvailable ?? true,
         amenities: amenities || [],
       }
     });
 
-    return NextResponse.json(hotel, { status: 201 });
+    return NextResponse.json(room, { status: 201 });
   } catch (error) {
-    console.error('Error creating hotel:', error);
+    console.error('Error creating room:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
