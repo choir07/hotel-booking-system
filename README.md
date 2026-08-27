@@ -136,19 +136,15 @@ JWT_SECRET=your-secret-key
 - `GET /api/admin/bookings` - Manage bookings
 - `GET /api/admin/users` - Manage users
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-This project is MIT licensed.
-
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Next.js team for the amazing framework
 - Prisma team for the excellent ORM
 - All open-source contributors
 
 ---
-Built with ❤️ using Next.js
+Built with using Next.js
