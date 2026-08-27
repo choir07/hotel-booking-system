@@ -82,25 +82,6 @@ npm run dev
 - Email: test@example.com
 - Password: password123
 
-## Project Structure
-
-\`\`\`
-hotel-booking-system/
-├── src/
-│   ├── app/
-│   │   ├── api/          # API routes
-│   │   ├── admin/        # Admin dashboard
-│   │   ├── hotel/        # Hotel detail pages
-│   │   └── page.tsx      # Homepage
-│   ├── components/       # Reusable components
-│   ├── contexts/         # React contexts
-│   └── lib/             # Utilities
-├── prisma/
-│   ├── schema.prisma    # Database schema
-│   └── seed.ts          # Seed data
-└── package.json
-\`\`\`
-
 ##  Deployment
 
 ### Deploy to Vercel
@@ -137,10 +118,6 @@ JWT_SECRET=your-secret-key
 - `GET /api/admin/rooms` - Manage rooms
 - `GET /api/admin/bookings` - Manage bookings
 - `GET /api/admin/users` - Manage users
-
-##  Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ##  Acknowledgments
 
