@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server'
 import prisma from '@/lib/prisma'
-import { cookies } from 'next/headers'
 import jwt from 'jsonwebtoken'
 
-// Helper to get user from token
-async function getUserIdFromToken() {
+async function getUserIdFromToken(request: Request) {
   try {
-    const cookieStore = cookies()
-    const token = cookieStore.get('token')?.value
-    
+    const authHeader = request.headers.get('authorization')
+    const token = authHeader?.startsWith('Bearer ')
+      ? authHeader.slice(7)
+      : null
+
     if (!token) {
       return null
     }
@@ -22,7 +22,7 @@ async function getUserIdFromToken() {
 
 export async function POST(request: Request) {
   try {
-    const userId = await getUserIdFromToken()
+    const userId = await getUserIdFromToken(request)
     
     if (!userId) {
       return NextResponse.json(
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request) {
   try {
-    const userId = await getUserIdFromToken()
+    const userId = await getUserIdFromToken(request)
     
     if (!userId) {
       return NextResponse.json(
