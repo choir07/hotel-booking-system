@@ -48,7 +48,7 @@ export default function HotelsManagement() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this hotel?')) return;
-    
+
     try {
       const token = localStorage.getItem('token');
       await fetch(`/api/admin/hotels?id=${id}`, {
@@ -185,7 +185,27 @@ export default function HotelsManagement() {
             </h2>
             <form onSubmit={async (e) => {
               e.preventDefault();
-              // Simple form submission - you can expand this
+              const formEl = e.currentTarget as HTMLFormElement;
+              const name = (formEl.elements.namedItem('name') as HTMLInputElement).value;
+              const city = (formEl.elements.namedItem('city') as HTMLInputElement).value;
+
+              const token = localStorage.getItem('token');
+              try {
+                const url = editingHotel
+                  ? `/api/admin/hotels/${editingHotel.id}`
+                  : '/api/admin/hotels';
+                await fetch(url, {
+                  method: editingHotel ? 'PUT' : 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                  },
+                  body: JSON.stringify({ name, city, address: '', country: '' })
+                });
+              } catch (err) {
+                console.error('Error saving hotel:', err);
+              }
+
               setShowModal(false);
               fetchHotels();
             }}>
