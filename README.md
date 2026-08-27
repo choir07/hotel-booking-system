@@ -1,26 +1,28 @@
-# 🏨 Hotel Booking System
+Disclaimer: This side project is still in development, not yet stable. Sorry for the inconveniences. 
+
+# Hotel Booking System
 
 A full-stack hotel booking platform built with Next.js, Prisma, and PostgreSQL.
 
-## ✨ Features
+## Features
 
 ### User Features
-- 🔐 User authentication (Login/Register)
-- 🔍 Browse hotels with search and filter
-- 🏨 View hotel details and available rooms
-- 📅 Book rooms with date selection
-- 💰 Automatic price calculation
-- 👤 User profile and booking history
+- User authentication (Login/Register)
+- Browse hotels with search and filter
+- View hotel details and available rooms
+- Book rooms with date selection
+- Automatic price calculation
+- User profile and booking history
 
 ### Admin Features
-- 📊 Dashboard with analytics
-- 🏨 Hotel management (CRUD)
-- 🛏️ Room management with availability
-- 📋 Booking management
-- 👥 User management
-- ⚙️ System settings
+- Dashboard with analytics
+- Hotel management (CRUD)
+- Room management with availability
+- Booking management
+- User management
+- System settings
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Backend:** Next.js API Routes
@@ -28,7 +30,7 @@ A full-stack hotel booking platform built with Next.js, Prisma, and PostgreSQL.
 - **Authentication:** JWT with bcrypt
 - **UI Icons:** Lucide React
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+
@@ -70,7 +72,7 @@ npm run dev
 - Admin Panel: http://localhost:3000/admin
 - Prisma Studio: http://localhost:5555
 
-## 🔐 Test Credentials
+## Test Credentials
 
 ### Admin Access
 - Email: admin@hotel.com
@@ -80,7 +82,7 @@ npm run dev
 - Email: test@example.com
 - Password: password123
 
-## 📁 Project Structure
+## Project Structure
 
 \`\`\`
 hotel-booking-system/
@@ -99,7 +101,7 @@ hotel-booking-system/
 └── package.json
 \`\`\`
 
-## 🚀 Deployment
+##  Deployment
 
 ### Deploy to Vercel
 
@@ -114,7 +116,7 @@ DATABASE_URL=postgresql://...
 JWT_SECRET=your-secret-key
 \`\`\`
 
-## 📝 API Documentation
+## API Documentation
 
 ### Authentication
 - `POST /api/auth/register` - Register new user
