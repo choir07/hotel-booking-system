@@ -10,18 +10,18 @@ export async function GET(req: NextRequest) {
   try {
     // Get token from Authorization header
     const authHeader = req.headers.get('authorization');
-    console.log('🔍 Auth Header:', authHeader); // Debug log
+    console.log('Auth Header:', authHeader); // Debug log
     
     if (!authHeader) {
-      console.log('❌ No Authorization header');
+      console.log('No Authorization header');
       return NextResponse.json({ error: 'Unauthorized - No Authorization header' }, { status: 401 });
     }
 
     const token = authHeader.replace('Bearer ', '');
-    console.log('🔍 Token received:', token.substring(0, 30) + '...'); // Debug log
+    console.log('Token received:', token.substring(0, 30) + '...'); // Debug log
     
     if (!token) {
-      console.log('❌ No token found');
+      console.log('No token found');
       return NextResponse.json({ error: 'Unauthorized - No token' }, { status: 401 });
     }
 
@@ -33,9 +33,9 @@ export async function GET(req: NextRequest) {
         email: string;
         role: string;
       };
-      console.log('✅ Token verified:', decoded);
+      console.log('Token verified:', decoded);
     } catch (jwtError) {
-      console.error('❌ JWT verification failed:', jwtError);
+      console.error('JWT verification failed:', jwtError);
       return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 });
     }
     
@@ -44,19 +44,19 @@ export async function GET(req: NextRequest) {
       where: { id: decoded.userId }
     });
 
-    console.log('🔍 User found:', user?.email, 'Role:', user?.role); // Debug log
+    console.log('User found:', user?.email, 'Role:', user?.role); // Debug log
 
     if (!user) {
-      console.log('❌ User not found in database');
+      console.log('User not found in database');
       return NextResponse.json({ error: 'Unauthorized - User not found' }, { status: 401 });
     }
 
     if (user.role !== 'ADMIN') {
-      console.log('❌ User is not admin:', user.role);
+      console.log('User is not admin:', user.role);
       return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 });
     }
 
-    console.log('✅ User is admin, fetching all users...');
+    console.log('User is admin, fetching all users...');
     
     // Fetch all users
     const users = await prisma.user.findMany({
@@ -70,15 +70,13 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    console.log(`✅ Found ${users.length} users`);
+    console.log(`Found ${users.length} users`);
     return NextResponse.json(users);
   } catch (error) {
-    console.error('❌ Error fetching users:', error);
+    console.error('Error fetching users:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
-
-// ... rest of the PUT and DELETE handlers (same as before)
