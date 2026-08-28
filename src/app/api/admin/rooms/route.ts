@@ -34,33 +34,21 @@ export async function GET(req: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
-    const hotels = await prisma.hotel.findMany({
-      orderBy: { name: 'asc' },
+    const rooms = await prisma.room.findMany({
+      orderBy: { roomNumber: 'asc' },
       include: {
-        _count: {
-          select: { rooms: true }
+        hotel: {
+          select: { name: true, city: true }
         },
-        rooms: {
-          select: {
-            _count: {
-              select: { bookings: true }
-            }
-          }
+        _count: {
+          select: { bookings: true }
         }
       }
     });
 
-    const result = hotels.map(({ rooms, _count, ...hotel }) => ({
-      ...hotel,
-      _count: {
-        rooms: _count.rooms,
-        bookings: rooms.reduce((sum, r) => sum + r._count.bookings, 0)
-      }
-    }));
-
-    return NextResponse.json(result);
+    return NextResponse.json(rooms);
   } catch (error) {
-    console.error('Error fetching hotels:', error);
+    console.error('Error fetching rooms:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

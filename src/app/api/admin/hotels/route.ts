@@ -38,12 +38,27 @@ export async function GET(req: NextRequest) {
       orderBy: { name: 'asc' },
       include: {
         _count: {
-          select: { rooms: true, bookings: true }
+          select: { rooms: true }
+        },
+        rooms: {
+          select: {
+            _count: {
+              select: { bookings: true }
+            }
+          }
         }
       }
     });
 
-    return NextResponse.json(hotels);
+    const result = hotels.map(({ rooms, _count, ...hotel }) => ({
+      ...hotel,
+      _count: {
+        rooms: _count.rooms,
+        bookings: rooms.reduce((sum, r) => sum + r._count.bookings, 0)
+      }
+    }));
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error('Error fetching hotels:', error);
     return NextResponse.json(
