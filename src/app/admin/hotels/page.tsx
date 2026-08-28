@@ -47,21 +47,21 @@ export default function HotelsManagement() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this hotel?')) return;
-
-    try {
-      const token = localStorage.getItem('token');
-      await fetch(`/api/admin/hotels?id=${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      fetchHotels();
-    } catch (error) {
-      console.error('Error deleting hotel:', error);
-    }
-  };
+  if (!confirm('Are you sure you want to delete this hotel?')) return;
+  
+  try {
+    const token = localStorage.getItem('token');
+    await fetch(`/api/admin/hotels/${id}`, {   // ← path param, matches [id]/route.ts
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    fetchHotels();
+  } catch (error) {
+    console.error('Error deleting hotel:', error);
+  }
+};
 
   if (loading) {
     return (
