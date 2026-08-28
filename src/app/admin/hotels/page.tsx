@@ -178,80 +178,100 @@ export default function HotelsManagement() {
 
       {/* Hotel Modal - Simplified version */}
       {showModal && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">
-              {editingHotel ? 'Edit Hotel' : 'Add New Hotel'}
-            </h2>
-            <form onSubmit={async (e) => {
-              e.preventDefault();
-              const formEl = e.currentTarget as HTMLFormElement;
-              const name = (formEl.elements.namedItem('name') as HTMLInputElement).value;
-              const city = (formEl.elements.namedItem('city') as HTMLInputElement).value;
-
-              const token = localStorage.getItem('token');
-              try {
-                const url = editingHotel
-                  ? `/api/admin/hotels/${editingHotel.id}`
-                  : '/api/admin/hotels';
-                await fetch(url, {
-                  method: editingHotel ? 'PUT' : 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                  },
-                  body: JSON.stringify({ name, city, address: '', country: '' })
-                });
-              } catch (err) {
-                console.error('Error saving hotel:', err);
-              }
-
-              setShowModal(false);
-              fetchHotels();
-            }}>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Hotel Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    defaultValue={editingHotel?.name || ''}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    defaultValue={editingHotel?.city || ''}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-end space-x-3 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                >
-                  {editingHotel ? 'Update' : 'Create'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <HotelModal
+          hotel={editingHotel}
+          onClose={() => setShowModal(false)}
+          onSave={() => {
+            setShowModal(false);
+            fetchHotels();
+          }}
+        />
       )}
+    </div >
+  );
+}
+
+function HotelModal({ hotel, onClose, onSave }: any) {
+  const [formData, setFormData] = useState({
+    name: hotel?.name || '',
+    city: hotel?.city || '',
+    address: hotel?.address || '',
+    country: hotel?.country || '',
+    description: hotel?.description || '',
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem('token');
+      const url = hotel
+        ? `/api/admin/hotels/${hotel.id}`
+        : '/api/admin/hotels';
+
+      await fetch(url, {
+        method: hotel ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      onSave();
+    } catch (error) {
+      console.error('Error saving hotel:', error);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-6 max-w-md w-full">
+        <h2 className="text-xl font-bold mb-4">
+          {hotel ? 'Edit Hotel' : 'Add New Hotel'}
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Hotel Name
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                City
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.city}
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
+          <div className="flex justify-end space-x-3 mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              {hotel ? 'Update' : 'Create'}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
