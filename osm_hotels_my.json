@@ -1,0 +1,398 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-08-28T07:41:51Z",
+    "timestamp_areas_base": "2026-08-28T00:16:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 304666144,
+  "lat": 2.5171062,
+  "lon": 102.8116786,
+  "tags": {
+    "name": "Rumah Rehat Kenamaan Segamat",
+    "name:ms": "Rumah Rehat Kenamaan Segamat",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 315729960,
+  "lat": 5.2816241,
+  "lon": 115.2611336,
+  "tags": {
+    "name": "Tiara Labuan Hotel",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 316257109,
+  "lat": 2.7432822,
+  "lon": 101.4461462,
+  "tags": {
+    "is_in": "Morib, Banting, Selangor, Malaysia",
+    "name": "Hotel Sri Morib",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 316257134,
+  "lat": 2.7432760,
+  "lon": 101.4477549,
+  "tags": {
+    "is_in": "Morib, Banting, Selangor, Malaysia",
+    "name": "Impian Morib",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 316257140,
+  "lat": 2.7486194,
+  "lon": 101.4440564,
+  "tags": {
+    "is_in": "Morib, Banting, Selangor, Malaysia",
+    "name": "Banglo Suara Ombak",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 358487852,
+  "lat": 2.5033937,
+  "lon": 102.8243465,
+  "tags": {
+    "name": "Hotel Harmony",
+    "name:en": "Hotel Harmony",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 417965534,
+  "lat": 2.4495728,
+  "lon": 101.8563964,
+  "tags": {
+    "addr:city": "Port Dickson",
+    "addr:suburb": "Teluk Kemang",
+    "name": "Lido Hotel",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 417965590,
+  "lat": 2.4629100,
+  "lon": 101.8541134,
+  "tags": {
+    "addr:city": "Port Dickson",
+    "addr:place": "Teluk Kemang",
+    "name": "Hotel Mesra",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 451696207,
+  "lat": 2.1947155,
+  "lon": 102.2473284,
+  "tags": {
+    "name": "Heeren Inn",
+    "name:en": "Heeren Inn",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 456659749,
+  "lat": 2.2070540,
+  "lon": 102.2453603,
+  "tags": {
+    "name": "Avillion Legacy Melaka",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 482898720,
+  "lat": 3.1588083,
+  "lon": 101.7000583,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:postcode": "50250",
+    "addr:street": "Jalan Sultan Ismail",
+    "brand": "Sheraton",
+    "brand:wikidata": "Q634831",
+    "brand:wikipedia": "en:Sheraton Hotels and Resorts",
+    "internet_access": "yes",
+    "internet_access:fee": "customers",
+    "name": "Sheraton Imperial Kuala Lumpur Hotel",
+    "name:en": "Sheraton Imperial Kuala Lumpur Hotel",
+    "rooms": "398",
+    "stars": "5",
+    "tourism": "hotel",
+    "wikidata": "Q111515981"
+  }
+},
+{
+  "type": "node",
+  "id": 497185970,
+  "lat": 5.9210706,
+  "lon": 102.7222719,
+  "tags": {
+    "name": "Bubu Long Beach Resort",
+    "name:en": "Bubu Long Beach Resort",
+    "tourism": "hotel",
+    "website": "https://www.buburesort.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 534058896,
+  "lat": 5.3360616,
+  "lon": 103.1386886,
+  "tags": {
+    "addr:housenumber": "18A",
+    "addr:postcode": "20100",
+    "addr:street": "Jalan Masjid Abidin",
+    "internet_access": "wlan",
+    "name": "Seaview",
+    "name:en": "Seaview",
+    "opening_hours": "24/7",
+    "phone": "+6096221911",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 534648572,
+  "lat": 3.1512638,
+  "lon": 101.6961245,
+  "tags": {
+    "name": "Citin Masjid Jamek",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 560716701,
+  "lat": 2.7464707,
+  "lon": 101.7117538,
+  "tags": {
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "name": "Sama-Sama Express KLIA Terminal 1",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 623398131,
+  "lat": 5.6136582,
+  "lon": 100.4834260,
+  "tags": {
+    "name": "Emerald Puteri Hotel",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 702721193,
+  "lat": 4.3851988,
+  "lon": 102.4007158,
+  "tags": {
+    "addr:housenumber": "77",
+    "name": "Mutiara Taman Negara Resort",
+    "tourism": "hotel",
+    "website": "http://www.tamannegararesort.com/",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 769488914,
+  "lat": 4.3648441,
+  "lon": 102.3909679,
+  "tags": {
+    "name": "Travellers Lodge",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 828853535,
+  "lat": 6.1577952,
+  "lon": 102.2566240,
+  "tags": {
+    "name": "Pasir Belanda",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 828853542,
+  "lat": 6.1564511,
+  "lon": 102.2516351,
+  "tags": {
+    "name": "kasa melodi",
+    "tourism": "guest_house"
+  }
+},
+{
+  "type": "node",
+  "id": 838084808,
+  "lat": 5.9025651,
+  "lon": 102.7433793,
+  "tags": {
+    "email": "reservation@perhentianislandresort.net",
+    "fax": "+60 9 6911 110",
+    "name": "Perhentian Island Resort",
+    "name:en": "Perhentian Island Resort",
+    "phone": "+60 9 6911 111 / 112",
+    "tourism": "hotel",
+    "website": "https://www.perhentianislandresort.net/"
+  }
+},
+{
+  "type": "node",
+  "id": 843067385,
+  "lat": 5.9419646,
+  "lon": 102.4552133,
+  "tags": {
+    "name": "Villa Danialla Beach Resort",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 919488304,
+  "lat": 4.8577304,
+  "lon": 100.7605056,
+  "tags": {
+    "name": "Sentosa Villa - At One With Nature",
+    "operator": "Sentosa Villa",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 921975071,
+  "lat": 3.1451796,
+  "lon": 101.7076369,
+  "tags": {
+    "addr:housenumber": "16",
+    "addr:postcode": "50200",
+    "addr:street": "Jalan Alor",
+    "brand": "Ibis Styles",
+    "brand:wikidata": "Q3147425",
+    "name": "Ibis Styles Kuala Lumpur Bukit Bintang",
+    "name:en": "Ibis Styles Kuala Lumpur Bukit Bintang",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 945162649,
+  "lat": 3.1333068,
+  "lon": 101.6890339,
+  "tags": {
+    "brand": "MyHotel",
+    "check_date": "2025-11-17",
+    "name": "MyHotel",
+    "name:en": "MyHotel",
+    "stars": "3",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 945162651,
+  "lat": 3.1326651,
+  "lon": 101.6895982,
+  "tags": {
+    "name": "Impian Budget Inn",
+    "name:en": "Impian Budget Inn",
+    "operator": "Impian Budget Inn",
+    "stars": "2",
+    "tourism": "guest_house"
+  }
+},
+{
+  "type": "node",
+  "id": 951073357,
+  "lat": 2.2309768,
+  "lon": 104.0608371,
+  "tags": {
+    "name": "Rimba Resort",
+    "name:en": "Rimba Resort",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 951073395,
+  "lat": 2.2263376,
+  "lon": 104.0656787,
+  "tags": {
+    "name": "Sea Gypsy Resort",
+    "name:en": "Sea Gypsy Resort",
+    "tourism": "hotel"
+  }
+},
+{
+  "type": "node",
+  "id": 972351749,
+  "lat": 1.4945871,
+  "lon": 103.8747175,
+  "tags": {
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "name": "Swan Garden",
+    "tourism": "hotel",
+    "website": "https://www.swangardenhotel.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 995503922,
+  "lat": 3.1352656,
+  "lon": 101.6857595,
+  "tags": {
+    "addr:city": "Kuala Lumpur",
+    "addr:housenumber": "3",
+    "addr:postcode": "50470",
+    "addr:street": "Jalan Stesen Sentral",
+    "brand": "Hilton",
+    "brand:wikidata": "Q598884",
+    "check_date": "2026-03-11",
+    "contact:facebook": "https://www.facebook.com/hiltonkl",
+    "contact:fax": "+60-3-2264-2266",
+    "contact:instagram": "https://www.instagram.com/hiltonkualalumpur/",
+    "contact:linkedin": "https://www.linkedin.com/in/hilton-kuala-lumpur-and-hilton-malaysia-968555b2",
+    "contact:vk": "https://vk.com/hilton_kuala_lumpur",
+    "email": "kuala-lumpur@hilton.com",
+    "internet_access": "yes",
+    "name": "Hilton Kuala Lumpur",
+    "operator": "Hilton",
+    "payment:cash": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+60322642264",
+    "rooms": "512",
+    "stars": "5",
+    "tourism": "hotel",
+    "website": "https://www.hilton.com/en/hotels/kulhihi-hilton-kuala-lumpur/",
+    "wikidata": "Q3135691",
+    "wikimedia_commons": "Category:Hilton Kuala Lumpur",
+    "wikipedia": "en:Hilton Kuala Lumpur"
+  }
+}
+
+  ]
+}
