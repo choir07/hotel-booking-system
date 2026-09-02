@@ -395,7 +395,7 @@ export default function HomePage() {
                         <div>
                           {cheapestPrice ? (
                             <>
-                              <span className="text-2xl font-bold text-blue-600">${cheapestPrice}</span>
+                              <span className="text-2xl font-bold text-blue-600">RM{cheapestPrice}</span>
                               <span className="text-gray-500 text-sm"> / night</span>
                               <div className="text-xs text-gray-500">
                                 {availableRooms} rooms available

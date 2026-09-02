@@ -173,7 +173,7 @@ export default function BookingsManagement() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="font-semibold text-gray-900">
-                      ${booking.totalPrice}
+                      $RM{booking.totalPrice}
                     </div>
                   </td>
                   <td className="px-6 py-4">

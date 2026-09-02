@@ -310,7 +310,7 @@ export default function HotelDetailPage() {
                           <p className="text-sm text-gray-600">Capacity: {room.capacity} guests</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xl font-bold text-blue-600">${room.pricePerNight}</p>
+                          <p className="text-xl font-bold text-blue-600">RM{room.pricePerNight}</p>
                           <p className="text-xs text-gray-500">/ night</p>
                         </div>
                       </div>
@@ -501,7 +501,7 @@ function BookingModal({ hotel, roomId, user, isAuthenticated, onClose, onSuccess
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Price per night</span>
-                <span className="font-medium">${room?.pricePerNight}</span>
+                <span className="font-medium">RM{room?.pricePerNight}</span>
               </div>
               <div className="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-gray-200">
                 <span>Total</span>

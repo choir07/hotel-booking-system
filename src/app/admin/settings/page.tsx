@@ -11,7 +11,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState({
     siteName: 'Hotel Booking System',
     siteEmail: 'admin@hotel.com',
-    currency: 'USD',
+    currency: 'MYR',
     timezone: 'UTC',
     bookingCancellationDays: 7,
   });
@@ -100,6 +100,7 @@ export default function SettingsPage() {
                   onChange={(e) => setSettings({...settings, currency: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 >
+                  <option value="MYR">MYR (RM)</option>
                   <option value="USD">USD ($)</option>
                   <option value="EUR">EUR (€)</option>
                   <option value="GBP">GBP (£)</option>

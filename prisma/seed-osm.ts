@@ -1,21 +1,3 @@
-/**
- * prisma/seed-osm.ts
- *
- * Fetches real hotel/resort/guesthouse data from OpenStreetMap's Overpass API,
- * fabricates the fields OSM doesn't provide (rooms, pricing, amenities,
- * description), and inserts everything via Prisma.
- *
- * ⚠️ ADJUST FIELD NAMES: this assumes your schema looks roughly like:
- *   model Hotel { id, name, city, address, phone, website, stars, description,
- *                 image, latitude, longitude, rooms Room[] }
- *   model Room  { id, hotelId, type, price, capacity, amenities, image }
- * Rename anything below (search for "// ADJUST") to match your actual schema.
- *
- * Run with:
- *   npx tsx prisma/seed-osm.ts
- * or compile first if you don't have tsx:
- *   npx ts-node prisma/seed-osm.ts
- */
 
 import { PrismaClient } from '@prisma/client';
 
@@ -23,7 +5,7 @@ const prisma = new PrismaClient();
 
 // ---------- 1. Fetch from Overpass ----------
 
-const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
+// (Overpass endpoints defined below, with mirror fallback)
 
 const OVERPASS_QUERY = `
 [out:json][timeout:25];
@@ -50,19 +32,37 @@ interface OverpassResponse {
   elements: OverpassElement[];
 }
 
+const OVERPASS_URLS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+];
+
 async function fetchOsmHotels(): Promise<OverpassElement[]> {
-  const res = await fetch(OVERPASS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `data=${encodeURIComponent(OVERPASS_QUERY)}`,
-  });
+  let lastError: unknown;
+  for (const url of OVERPASS_URLS) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': '*/*',
+          'User-Agent': 'hotelbook-seed-script/1.0 (portfolio project; local dev)',
+        },
+        body: `data=${encodeURIComponent(OVERPASS_QUERY)}`,
+      });
 
-  if (!res.ok) {
-    throw new Error(`Overpass request failed: ${res.status} ${res.statusText}`);
+      if (!res.ok) {
+        throw new Error(`Overpass request failed: ${res.status} ${res.statusText}`);
+      }
+
+      const data = (await res.json()) as OverpassResponse;
+      return data.elements;
+    } catch (err) {
+      console.warn(`Overpass endpoint ${url} failed, trying next if available...`, err instanceof Error ? err.message : err);
+      lastError = err;
+    }
   }
-
-  const data = (await res.json()) as OverpassResponse;
-  return data.elements;
+  throw lastError;
 }
 
 // ---------- 2. Fabrication helpers ----------
@@ -114,22 +114,41 @@ function fabricateAmenities(stars: number): string[] {
   return shuffled.slice(0, count);
 }
 
-const ROOM_TYPES = [
-  { type: 'Standard Room', basePrice: 120, capacity: 2 },
-  { type: 'Deluxe Room', basePrice: 200, capacity: 2 },
-  { type: 'Suite', basePrice: 380, capacity: 3 },
-  { type: 'Family Room', basePrice: 320, capacity: 4 },
+function fabricateRating(stars: number): number {
+  // Rough correlation: higher stars → higher guest rating, with noise.
+  const base = 2.8 + stars * 0.5;
+  const noisy = base + (Math.random() * 0.8 - 0.4);
+  return Math.round(Math.min(5, Math.max(1, noisy)) * 10) / 10;
+}
+
+function fabricateImageUrl(): string {
+  const seed = Math.floor(Math.random() * 1000);
+  return `https://picsum.photos/seed/hotel${seed}/800/600`;
+}
+
+// Matches enum RoomType in schema.prisma: STANDARD | DELUXE | SUITE | DOUBLE | SINGLE
+const ROOM_TYPES: { type: 'STANDARD' | 'DELUXE' | 'SUITE' | 'DOUBLE' | 'SINGLE'; basePrice: number; capacity: number }[] = [
+  { type: 'STANDARD', basePrice: 120, capacity: 2 },
+  { type: 'DELUXE', basePrice: 200, capacity: 2 },
+  { type: 'SUITE', basePrice: 380, capacity: 3 },
+  { type: 'DOUBLE', basePrice: 160, capacity: 2 },
 ];
 
-function fabricateRoomTypesForHotel(stars: number) {
-  // Higher star rating → higher price multiplier, more room-type variety.
+function fabricateRoomImageUrl(): string {
+  const seed = Math.floor(Math.random() * 1000);
+  return `https://picsum.photos/seed/room${seed}/800/600`;
+}
+
+function fabricateRoomsForHotel(stars: number) {
   const multiplier = stars >= 5 ? 2.2 : stars === 4 ? 1.5 : stars === 3 ? 1.0 : 0.7;
-  const variety = stars >= 4 ? ROOM_TYPES : ROOM_TYPES.slice(0, 3); // budget places skip family suites
-  return variety.map((rt) => ({
-    type: rt.type, // ADJUST: Room.type
-    price: Math.round(rt.basePrice * multiplier * (0.9 + Math.random() * 0.2)), // ADJUST: Room.price
-    capacity: rt.capacity, // ADJUST: Room.capacity
-    amenities: fabricateAmenities(stars), // ADJUST: Room.amenities (or move to Hotel-level only)
+  const variety = stars >= 4 ? ROOM_TYPES : ROOM_TYPES.slice(0, 3); // budget places skip the pricier Suite tier
+  return variety.map((rt, i) => ({
+    roomNumber: `${100 + i * 10 + randomInt(1, 9)}`,
+    type: rt.type,
+    pricePerNight: Math.round(rt.basePrice * multiplier * (0.9 + Math.random() * 0.2)),
+    capacity: rt.capacity,
+    amenities: fabricateAmenities(stars),
+    images: [fabricateRoomImageUrl()],
   }));
 }
 
@@ -170,20 +189,22 @@ function transformElement(el: OverpassElement) {
   const stars = tags.stars ? parseInt(tags.stars, 10) : fabricateStars();
   const city = tags['addr:city'] || tags['is_in']?.split(',')[0]?.trim() || fallbackCityFromCoords(lat, lon);
   const addressParts = [tags['addr:housenumber'], tags['addr:street']].filter(Boolean);
-  const address = addressParts.length ? addressParts.join(' ') : null;
+  const address = addressParts.length ? addressParts.join(' ') : 'Address not listed'; // ADJUST: Hotel.address is required/non-nullable per schema
 
   return {
     name: tags.name, // ADJUST: Hotel.name
     city, // ADJUST: Hotel.city
-    address, // ADJUST: Hotel.address (nullable)
-    phone: tags.phone || null, // ADJUST: Hotel.phone
-    website: tags.website || null, // ADJUST: Hotel.website
-    stars, // ADJUST: Hotel.stars
+    country: 'Malaysia', // ADJUST: Hotel.country (required field per your schema)
+    address, // ADJUST: Hotel.address (required, non-nullable)
+    // Note: no "stars" field on Hotel — used internally only, not persisted
+    rating: fabricateRating(stars), // ADJUST: Hotel.rating (Float)
+    image: fabricateImageUrl(), // ADJUST: Hotel.image (String)
+    amenities: fabricateAmenities(stars), // ADJUST: Hotel.amenities is on Hotel, not Room, per your schema
     description: fabricateDescription(tags.name, city), // ADJUST: Hotel.description
-    latitude: lat, // ADJUST: Hotel.latitude
-    longitude: lon, // ADJUST: Hotel.longitude
+    // Note: no latitude/longitude fields on Hotel — coords used only for
+    // the fallbackCityFromCoords() lookup above, not persisted.
     _roomCount: tags.rooms ? parseInt(tags.rooms, 10) : fabricateRoomCount(stars),
-    _roomTypes: fabricateRoomTypesForHotel(stars),
+    _roomTypes: fabricateRoomsForHotel(stars),
   };
 }
 
@@ -208,12 +229,14 @@ async function main() {
         ...hotelData,
         rooms: {
           create: _roomTypes.map((rt) => ({
+            roomNumber: rt.roomNumber,
             type: rt.type,
-            price: rt.price,
+            pricePerNight: rt.pricePerNight,
             capacity: rt.capacity,
-            amenities: rt.amenities, // ADJUST: if Room.amenities isn't a String[]/Json column, e.g. join(', ') for a String column
+            amenities: rt.amenities,
+            images: rt.images,
           })),
-        }, // ADJUST: relation field name on Hotel if it's not called "rooms"
+        },
       },
     });
 
