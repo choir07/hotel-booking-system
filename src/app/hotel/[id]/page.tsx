@@ -505,7 +505,7 @@ function BookingModal({ hotel, roomId, user, isAuthenticated, onClose, onSuccess
               </div>
               <div className="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-gray-200">
                 <span>Total</span>
-                <span className="text-blue-600">${totalPrice}</span>
+                <span className="text-blue-600">RM{totalPrice}</span>
               </div>
             </div>
           )}

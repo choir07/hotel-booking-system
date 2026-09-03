@@ -196,7 +196,6 @@ function transformElement(el: OverpassElement) {
     city, // ADJUST: Hotel.city
     country: 'Malaysia', // ADJUST: Hotel.country (required field per your schema)
     address, // ADJUST: Hotel.address (required, non-nullable)
-    // Note: no "stars" field on Hotel — used internally only, not persisted
     rating: fabricateRating(stars), // ADJUST: Hotel.rating (Float)
     image: fabricateImageUrl(), // ADJUST: Hotel.image (String)
     amenities: fabricateAmenities(stars), // ADJUST: Hotel.amenities is on Hotel, not Room, per your schema
