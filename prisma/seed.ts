@@ -1,7 +1,7 @@
 // prisma/seed.ts
 
 import { PrismaClient, UserRole, RoomType, BookingStatus } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
